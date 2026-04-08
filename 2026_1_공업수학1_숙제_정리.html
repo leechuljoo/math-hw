@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026-1 공업수학1 — 숙제 Chapter 1</title>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        tags: 'none'
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+  <style>
+    :root {
+      --bg: #f4f6f9;
+      --surface: #ffffff;
+      --surface2: #f9fafc;
+      --text: #1a1d2e;
+      --text-sub: #5a6072;
+      --border: #e2e6ed;
+      --accent: #3b72d9;
+      --accent-light: #eaf0fc;
+      --green: #2e9e5b;
+      --green-light: #edf7f1;
+      --green-border: #b3dfc5;
+      --summary-bg: #eaf0fc;
+      --summary-border: #3b72d9;
+      --tag-bg: #dce8f8;
+      --tag-text: #1e4fa0;
+      --num-bg: #3b72d9;
+      --shadow: 0 2px 12px rgba(0,0,0,0.07);
+      --header-bg: #ffffff;
+      --toggle-border: #d0d5e0;
+    }
+    [data-theme="dark"] {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #1a2030;
+      --text: #e0e6f0;
+      --text-sub: #8592a8;
+      --border: #2d3444;
+      --accent: #5a9af8;
+      --accent-light: #172035;
+      --green: #3fb96b;
+      --green-light: #0e2218;
+      --green-border: #1f5535;
+      --summary-bg: #172035;
+      --summary-border: #5a9af8;
+      --tag-bg: #1a3058;
+      --tag-text: #85b8ff;
+      --num-bg: #2a5ab8;
+      --shadow: 0 2px 16px rgba(0,0,0,0.35);
+      --header-bg: #161b22;
+      --toggle-border: #2d3444;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      transition: background .25s, color .25s;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: background .25s, border-color .25s;
+    }
+    .header-left { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .header-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .header-sub {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+    }
+
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: none;
+      border: 1.5px solid var(--toggle-border);
+      border-radius: 100px;
+      padding: 6px 14px;
+      cursor: pointer;
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: border-color .2s, background .2s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); background: var(--accent-light); }
+    .toggle-icon { font-size: 1rem; line-height: 1; }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 32px 16px 72px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: background .25s, border-color .25s;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--num-bg);
+      color: #fff;
+      font-size: 0.88rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .card-title {
+      font-size: 0.97rem;
+      font-weight: 700;
+      flex: 1;
+      min-width: 120px;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-left: auto;
+    }
+    .tag {
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .card-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+
+    /* problem statement */
+    .stmt {
+      background: var(--surface2);
+      border-left: 3.5px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      font-size: 0.92rem;
+      overflow-x: auto;
+    }
+    .stmt p { margin-top: 6px; }
+
+    /* theory */
+    .theory {
+      background: var(--green-light);
+      border: 1px solid var(--green-border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      transition: background .25s;
+    }
+    .theory-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 10px;
+    }
+    .theory ul { padding-left: 18px; }
+    .theory li { margin-bottom: 7px; font-size: 0.88rem; color: var(--text); }
+    .theory li:last-child { margin-bottom: 0; }
+    .theory strong { color: var(--text); }
+
+    /* summary */
+    .summary {
+      background: var(--summary-bg);
+      border: 1px solid var(--summary-border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      transition: background .25s;
+    }
+    .summary-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .summary p { font-size: 0.88rem; color: var(--text); }
+
+    /* overflow math */
+    .MJX-TEX { max-width: 100%; }
+    mjx-container { overflow-x: auto; max-width: 100%; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      header { padding: 10px 14px; }
+      .header-sub { display: none; }
+      .tags { display: none; }
+      main { padding: 20px 10px 56px; gap: 16px; }
+      .card-body { padding: 14px; }
+      .card-header { padding: 12px 14px; }
+      .stmt { padding: 12px 14px; }
+      .theory, .summary { padding: 12px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="header-title">2026-1 공업수학1 — 숙제 Chapter 1</div>
+    <div class="header-sub">제출 기한: 2026.04.12(일) 자정까지</div>
+  </div>
+  <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()">
+    <span class="toggle-icon" id="themeIcon">🌙</span>
+    <span id="themeLabel">다크 모드</span>
+  </button>
+</header>
+
+<main>
+
+  <!-- ───────── 문항 1 ───────── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="num">1</div>
+      <div class="card-title">적분인자(Integrating Factor) 공식 증명</div>
+      <div class="tags">
+        <span class="tag">완전미분방정식</span>
+        <span class="tag">적분인자</span>
+        <span class="tag">증명</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="stmt">
+        $P(x,y)\,dx + Q(x,y)\,dy = 0$ 이 완전미분방정식이 아닐 경우, $FP\,dx + FQ\,dy = 0$ 을 완전하게 만드는 적분인자가 아래와 같음을 증명하라.
+        $$F(x) = \exp\!\int \frac{1}{Q}\!\left(\frac{\partial P}{\partial y} - \frac{\partial Q}{\partial x}\right)dx \qquad F^*(y) = \exp\!\int \frac{1}{P}\!\left(\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y}\right)dy$$
+      </div>
+
+      <div class="theory">
+        <div class="theory-label">📚 관련 이론: 완전미분방정식 &amp; 적분인자</div>
+        <ul>
+          <li><strong>완전미분방정식 조건:</strong> $M\,dx + N\,dy = 0$ 이 완전 $\Leftrightarrow \dfrac{\partial M}{\partial y} = \dfrac{\partial N}{\partial x}$. 이를 만족하면 포텐셜 함수 $u(x,y)$ 가 존재해 $du = 0$, 즉 해가 $u = C$.</li>
+          <li><strong>적분인자의 목적:</strong> 비완전 방정식에 함수 $F$를 곱해 완전하게 만드는 인자. $F$가 $x$ 또는 $y$ 만의 함수일 때 닫힌 형태의 공식이 존재.</li>
+          <li><strong>$F(x)$ 유도:</strong> $FP\,dx + FQ\,dy = 0$ 이 완전이 되려면 $\dfrac{\partial(FP)}{\partial y} = \dfrac{\partial(FQ)}{\partial x}$. $F$가 $x$만의 함수이므로 $F\dfrac{\partial P}{\partial y} = F'\!Q + F\dfrac{\partial Q}{\partial x}$, 정리하면 $\dfrac{F'}{F} = \dfrac{1}{Q}\!\left(\dfrac{\partial P}{\partial y} - \dfrac{\partial Q}{\partial x}\right)$ (우변이 $x$만의 함수여야 함). 분리변수형 ODE로 적분하면 $F(x) = \exp\!\int\!\dfrac{1}{Q}\!\left(\dfrac{\partial P}{\partial y} - \dfrac{\partial Q}{\partial x}\right)dx$.</li>
+          <li><strong>$F^*(y)$ 유도:</strong> 동일하게 $F$를 $y$만의 함수로 가정. $\dfrac{\partial(F^*P)}{\partial y} = \dfrac{\partial(F^*Q)}{\partial x}$ 에서 $\dfrac{(F^*)'}{F^*} = \dfrac{1}{P}\!\left(\dfrac{\partial Q}{\partial x} - \dfrac{\partial P}{\partial y}\right)$ 가 $y$만의 함수일 때 적분하여 유도.</li>
+        </ul>
+      </div>
+
+      <div class="summary">
+        <div class="summary-label">✏️ Summary</div>
+        <p>완전 조건 $\partial M/\partial y = \partial N/\partial x$을 $F$를 곱한 방정식에 적용하면, $F$가 $x$만의 함수일 때 $F'/F = \tfrac{1}{Q}(\partial P/\partial y - \partial Q/\partial x)$라는 분리변수형 ODE가 유도된다. 우변이 $x$만의 함수인 경우에만 적분인자가 존재하며, 적분하여 $F(x) = \exp\!\int\tfrac{1}{Q}(\partial P/\partial y - \partial Q/\partial x)\,dx$를 얻는다. $F^*(y)$는 $F$를 $y$만의 함수로 가정해 대칭적으로 유도한다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── 문항 2 ───────── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="num">2</div>
+      <div class="card-title">비제차 1계 선형 ODE 일반해 유도</div>
+      <div class="tags">
+        <span class="tag">선형 ODE</span>
+        <span class="tag">적분인자법</span>
+        <span class="tag">일반해 유도</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="stmt">
+        비제차 선형상미분방정식의 일반해를 구하는 과정을 설명하고 유도하라.
+        $$y' + p(x)\,y = r(x)$$
+      </div>
+
+      <div class="theory">
+        <div class="theory-label">📚 관련 이론: 적분인자법(Integrating Factor Method)</div>
+        <ul>
+          <li><strong>제차해:</strong> $r(x)=0$이면 분리변수법으로 $y_h = C\,e^{-\int p\,dx}$ 획득.</li>
+          <li><strong>적분인자 설정:</strong> $h(x) = e^{\int p(x)\,dx}$. 이를 양변에 곱하면 좌변이 완전 미분으로 변환됨.</li>
+          <li><strong>핵심 변환:</strong> $h(x)\,y' + h(x)\,p(x)\,y = \bigl(h(x)\,y\bigr)'$ (곱의 미분 규칙)</li>
+          <li><strong>적분:</strong> $(h\,y)' = h\,r(x)$ 양변을 $x$로 적분 → $h\,y = \int h\,r(x)\,dx + C$</li>
+          <li><strong>일반해:</strong> $$y = e^{-\int p\,dx}\!\left[\int e^{\int p\,dx}\,r(x)\,dx + C\right]$$</li>
+          <li><strong>구조:</strong> 일반해 = 제차해($C$ 항) + 특수해(적분 항)의 합으로 구성됨.</li>
+        </ul>
+      </div>
+
+      <div class="summary">
+        <div class="summary-label">✏️ Summary</div>
+        <p>$y' + p(x)y = r(x)$에 적분인자 $h = e^{\int p\,dx}$를 곱하면 좌변이 $(hy)'$로 묶힌다. 양변을 적분하면 $hy = \int hr\,dx + C$이므로 일반해는 $y = e^{-\int p\,dx}\!\bigl[\int e^{\int p\,dx}\,r(x)\,dx + C\bigr]$. 제차해와 특수해의 중첩(superposition)으로 이루어진다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── 문항 3 ───────── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="num">3</div>
+      <div class="card-title">베르누이 방정식 / 동차형 ODE</div>
+      <div class="tags">
+        <span class="tag">베르누이 방정식</span>
+        <span class="tag">동차형 ODE</span>
+        <span class="tag">선형화</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="stmt">$$x^3 y' = x^2 y + y^3$$</div>
+
+      <div class="theory">
+        <div class="theory-label">📚 관련 이론</div>
+        <ul>
+          <li><strong>표준화:</strong> $x^3$으로 나누면 $y' = \dfrac{y}{x} + \dfrac{y^3}{x^3}$, 즉 $y' - \dfrac{y}{x} = \dfrac{y^3}{x^3}$ (베르누이, $n = 3$)</li>
+          <li><strong>베르누이 방정식:</strong> $y' + p(x)\,y = q(x)\,y^n$에서 $v = y^{1-n}$으로 치환하면 선형 ODE로 변환.</li>
+          <li><strong>치환:</strong> $v = y^{-2}$, $v' = -2y^{-3}y'$. 방정식 양변을 $y^3$으로 나누면 $y^{-3}y' - y^{-2}/x = 1/x^3$.</li>
+          <li><strong>선형화:</strong> $-v'/2 - v/x = 1/x^3$ → $v' + \dfrac{2}{x}v = -\dfrac{2}{x^3}$</li>
+          <li><strong>적분인자:</strong> $x^2$을 곱하면 $(x^2 v)' = -2/x$ → 적분: $x^2 v = -2\ln|x| + C$</li>
+          <li><strong>동차형 관점:</strong> $v = y/x$ 치환 시 $xv' = v^3$ (분리변수형)으로도 풀 수 있으며 동일한 해.</li>
+        </ul>
+      </div>
+
+      <div class="summary">
+        <div class="summary-label">✏️ Summary</div>
+        <p>$x^3$으로 나누어 베르누이형($n=3$)으로 정리한 뒤, $v = y^{-2}$ 치환으로 선형 ODE $v' + 2v/x = -2/x^3$를 유도. 적분인자 $x^2$으로 풀면 $x^2 v = -2\ln|x| + C$이므로 일반해 $y^2 = \dfrac{x^2}{C - 2\ln|x|}$.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── 문항 4 ───────── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="num">4</div>
+      <div class="card-title">치환법 — $v = y + ax$ 형태</div>
+      <div class="tags">
+        <span class="tag">치환법</span>
+        <span class="tag">분리변수</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="stmt">$$y' = (y + 4x)^2$$</div>
+
+      <div class="theory">
+        <div class="theory-label">📚 관련 이론</div>
+        <ul>
+          <li><strong>치환 패턴:</strong> $y' = f(ax + by + c)$ 형태는 $v = ax + by + c$ 로 치환하면 분리변수형 ODE로 변환된다.</li>
+          <li><strong>치환:</strong> $v = y + 4x$ → $\dfrac{dv}{dx} = y' + 4 = v^2 + 4$</li>
+          <li><strong>분리변수:</strong> $\dfrac{dv}{v^2 + 4} = dx$</li>
+          <li><strong>적분:</strong> $\displaystyle\int \frac{dv}{v^2 + 4} = \frac{1}{2}\arctan\frac{v}{2}$이므로 $\dfrac{1}{2}\arctan\dfrac{v}{2} = x + C$</li>
+          <li><strong>역치환:</strong> $v = 2\tan(2x + C_1)$, $y = v - 4x$</li>
+        </ul>
+      </div>
+
+      <div class="summary">
+        <div class="summary-label">✏️ Summary</div>
+        <p>$v = y + 4x$ 치환으로 $v' = v^2 + 4$ (분리변수형)를 얻는다. 적분하면 $\tfrac{1}{2}\arctan(v/2) = x + C$이므로 역치환 후 일반해 $y = 2\tan(2x + C) - 4x$.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── 문항 5 ───────── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="num">5</div>
+      <div class="card-title">적분인자로 완전미분방정식화</div>
+      <div class="tags">
+        <span class="tag">완전미분방정식</span>
+        <span class="tag">적분인자 $F^*(y)$</span>
+        <span class="tag">포텐셜 함수</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="stmt">$$(e^{x+y} + ye^y)\,dx + (xe^y - 1)\,dy = 0$$</div>
+
+      <div class="theory">
+        <div class="theory-label">📚 관련 이론</div>
+        <ul>
+          <li><strong>완전성 검사:</strong> $P = e^{x+y} + ye^y = e^y(e^x + y)$, $Q = xe^y - 1$</li>
+          <li>$\dfrac{\partial P}{\partial y} = e^{x+y} + e^y + ye^y,\quad \dfrac{\partial Q}{\partial x} = e^y$ → 불일치, <strong>비완전</strong></li>
+          <li><strong>적분인자 탐색:</strong>
+            $$\frac{\partial Q/\partial x - \partial P/\partial y}{P} = \frac{-e^{x+y} - ye^y}{e^y(e^x+y)} = -1 \quad (y\text{ 만의 함수!})$$
+          </li>
+          <li>따라서 $F^*(y) = e^{\int(-1)\,dy} = e^{-y}$</li>
+          <li><strong>$e^{-y}$ 곱 후:</strong> $P^* = e^x + y$, $Q^* = x - e^{-y}$</li>
+          <li>$\partial P^*/\partial y = 1 = \partial Q^*/\partial x$ → <strong>완전!</strong></li>
+          <li><strong>포텐셜 함수:</strong> $\partial u/\partial x = e^x + y$ → $u = e^x + xy + g(y)$, $\partial u/\partial y = x + g'(y) = x - e^{-y}$ → $g(y) = e^{-y}$</li>
+        </ul>
+      </div>
+
+      <div class="summary">
+        <div class="summary-label">✏️ Summary</div>
+        <p>$(\partial Q/\partial x - \partial P/\partial y)/P = -1$ (상수, $y$만의 함수)이므로 적분인자 $F^*(y) = e^{-y}$. 곱하면 완전미분방정식이 되고, 포텐셜 함수를 구하면 일반해 $e^x + xy + e^{-y} = C$.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── 문항 6 ───────── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="num">6</div>
+      <div class="card-title">분리변수법</div>
+      <div class="tags">
+        <span class="tag">분리변수법</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="stmt">$$dy - y^2\sin x\,dx = 0$$</div>
+
+      <div class="theory">
+        <div class="theory-label">📚 관련 이론: 분리변수법(Separation of Variables)</div>
+        <ul>
+          <li><strong>분리:</strong> $dy/y^2 = \sin x\,dx$ → 좌변은 $y$ 함수, 우변은 $x$ 함수로 분리</li>
+          <li><strong>적분:</strong> $\displaystyle\int y^{-2}\,dy = -\frac{1}{y}$, $\displaystyle\int \sin x\,dx = -\cos x$</li>
+          <li><strong>결합:</strong> $-1/y = -\cos x + C$</li>
+          <li><strong>정리:</strong> $y = \dfrac{1}{\cos x + C}$ (단, $y = 0$은 자명해이지만 $y \neq 0$ 범위에서 유효)</li>
+        </ul>
+      </div>
+
+      <div class="summary">
+        <div class="summary-label">✏️ Summary</div>
+        <p>변수를 분리하여 $y^{-2}\,dy = \sin x\,dx$. 양변 적분 후 정리하면 일반해 $y = \dfrac{1}{\cos x + C}$.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── 문항 7 ───────── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="num">7</div>
+      <div class="card-title">완전미분방정식 — 직접 인식</div>
+      <div class="tags">
+        <span class="tag">완전미분방정식</span>
+        <span class="tag">포텐셜 함수</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="stmt">$$(3ye^{3x} - 2x) + e^{3x}y' = 0$$</div>
+
+      <div class="theory">
+        <div class="theory-label">📚 관련 이론</div>
+        <ul>
+          <li><strong>표준형:</strong> $P\,dx + Q\,dy = 0$으로 쓰면 $P = 3ye^{3x} - 2x$, $Q = e^{3x}$</li>
+          <li><strong>완전성 검사:</strong> $\dfrac{\partial P}{\partial y} = 3e^{3x} = \dfrac{\partial Q}{\partial x}$ → <strong>완전!</strong></li>
+          <li><strong>빠른 인식:</strong> $e^{3x}\,dy + 3ye^{3x}\,dx = d(ye^{3x})$이고 $-2x\,dx = d(-x^2)$이므로 직접 $d(ye^{3x} - x^2) = 0$ 인식 가능</li>
+          <li><strong>포텐셜 함수:</strong> $\partial u/\partial y = e^{3x}$ → $u = ye^{3x} + g(x)$, $\partial u/\partial x = 3ye^{3x} + g'(x) = P$ → $g'(x) = -2x$ → $g(x) = -x^2$</li>
+          <li><strong>해:</strong> $u = ye^{3x} - x^2 = C$</li>
+        </ul>
+      </div>
+
+      <div class="summary">
+        <div class="summary-label">✏️ Summary</div>
+        <p>$\partial P/\partial y = \partial Q/\partial x = 3e^{3x}$으로 완전미분방정식. $e^{3x}dy + 3ye^{3x}dx = d(ye^{3x})$를 직접 인식하거나 포텐셜 함수를 구해 일반해 $ye^{3x} - x^2 = C$, 즉 $y = (C + x^2)e^{-3x}$.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── 문항 8 ───────── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="num">8</div>
+      <div class="card-title">1계 선형 ODE (비제차) — 공명형</div>
+      <div class="tags">
+        <span class="tag">선형 ODE</span>
+        <span class="tag">적분인자법</span>
+        <span class="tag">공명</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="stmt">$$y' + ky = e^{-kx}$$</div>
+
+      <div class="theory">
+        <div class="theory-label">📚 관련 이론</div>
+        <ul>
+          <li><strong>표준형 확인:</strong> $p(x) = k$ (상수), $r(x) = e^{-kx}$</li>
+          <li><strong>적분인자:</strong> $h = e^{\int k\,dx} = e^{kx}$</li>
+          <li><strong>변환:</strong> $(e^{kx}y)' = e^{kx} \cdot e^{-kx} = 1$</li>
+          <li><strong>적분:</strong> $e^{kx}y = x + C$</li>
+          <li><strong>일반해:</strong> $y = (x + C)e^{-kx}$</li>
+          <li><strong>공명 현상:</strong> $r(x) = e^{-kx}$가 제차해 $y_h = Ce^{-kx}$와 동일한 지수를 가지므로, 특수해에 $x$ 인수가 등장한다. (2계 ODE의 공명과 유사한 구조)</li>
+        </ul>
+      </div>
+
+      <div class="summary">
+        <div class="summary-label">✏️ Summary</div>
+        <p>적분인자 $e^{kx}$를 곱하면 $(e^{kx}y)' = 1$. 적분 후 일반해 $y = (x + C)e^{-kx}$. $r(x)$가 제차해와 같은 꼴이기 때문에 특수해에 인수 $x$가 나타나는 공명(resonance) 구조이다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── 문항 9 ───────── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="num">9</div>
+      <div class="card-title">베르누이 방정식 / 분리변수 — 로지스틱형</div>
+      <div class="tags">
+        <span class="tag">베르누이 방정식</span>
+        <span class="tag">분리변수</span>
+        <span class="tag">평형해</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="stmt">$$y' = y(1 - 2y)$$</div>
+
+      <div class="theory">
+        <div class="theory-label">📚 관련 이론</div>
+        <ul>
+          <li><strong>로지스틱형:</strong> $y' = ay - by^2$ 구조. 평형해 $y' = 0$ → $y = 0$ (불안정), $y = 1/2$ (안정 평형)</li>
+          <li><strong>베르누이 접근 ($n=2$):</strong> $y' - y = -2y^2$. $v = y^{-1}$ 치환, 양변을 $y^2$으로 나누면 $y^{-2}y' - y^{-1} = -2$, 즉 $-v' - v = -2$ → $v' + v = 2$</li>
+          <li><strong>선형 ODE 풀이:</strong> 적분인자 $e^x$ 적용 → $(e^x v)' = 2e^x$ → $v = 2 + Ce^{-x}$</li>
+          <li><strong>역치환:</strong> $1/y = 2 + Ce^{-x}$ → $y = \dfrac{1}{2 + Ce^{-x}}$</li>
+          <li><strong>분리변수 접근:</strong> $\dfrac{dy}{y(1-2y)} = dx$, 부분분수 $\dfrac{1}{y(1-2y)} = \dfrac{1}{y} + \dfrac{2}{1-2y}$로 적분해도 동일한 해.</li>
+        </ul>
+      </div>
+
+      <div class="summary">
+        <div class="summary-label">✏️ Summary</div>
+        <p>베르누이($n=2$), $v = y^{-1}$ 치환 → 선형 ODE $v' + v = 2$. 적분인자 $e^x$로 풀면 $v = 2 + Ce^{-x}$. 일반해 $y = \dfrac{1}{2 + Ce^{-x}}$. 평형해: $y=0$ (불안정), $y=1/2$ (안정).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── 문항 10 ───────── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="num">10</div>
+      <div class="card-title">베르누이 방정식 — 초기값 문제(IVP)</div>
+      <div class="tags">
+        <span class="tag">베르누이 방정식</span>
+        <span class="tag">초기값 문제</span>
+        <span class="tag">부분적분</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="stmt">$$xy' + y = y^2 \ln x, \qquad y(1) = \tfrac{1}{2}$$</div>
+
+      <div class="theory">
+        <div class="theory-label">📚 관련 이론</div>
+        <ul>
+          <li><strong>표준화:</strong> $x$로 나누면 $y' + \dfrac{1}{x}y = \dfrac{\ln x}{x}\,y^2$ → 베르누이 ($n=2$)</li>
+          <li><strong>치환:</strong> $v = y^{-1}$, $v' = -y^{-2}y'$. $y^2$으로 나누면: $y^{-2}y' + \dfrac{y^{-1}}{x} = \dfrac{\ln x}{x}$</li>
+          <li><strong>선형화:</strong> $-v' + \dfrac{v}{x} = \dfrac{\ln x}{x}$ → $v' - \dfrac{v}{x} = -\dfrac{\ln x}{x}$</li>
+          <li><strong>적분인자:</strong> $e^{-\int(1/x)\,dx} = e^{-\ln x} = 1/x$. $(v/x)' = -\dfrac{\ln x}{x^2}$</li>
+          <li><strong>적분 (부분적분 필요):</strong> $\displaystyle\int \frac{\ln x}{x^2}\,dx = -\frac{\ln x}{x} - \frac{1}{x} + C$</li>
+          <li>따라서 $v/x = \dfrac{\ln x}{x} + \dfrac{1}{x} + C$ → $v = \ln x + 1 + Cx$</li>
+          <li><strong>초기조건:</strong> $y(1) = 1/2$ → $v(1) = 2$: $2 = 0 + 1 + C \cdot 1$ → $C = 1$</li>
+        </ul>
+      </div>
+
+      <div class="summary">
+        <div class="summary-label">✏️ Summary</div>
+        <p>베르누이($n=2$), $v = y^{-1}$ 치환 → 선형 ODE $v' - v/x = -(\ln x)/x$. 적분인자 $1/x$와 부분적분으로 $v = \ln x + 1 + Cx$. 초기조건 $y(1) = 1/2$에서 $C = 1$이므로 특수해 $y = \dfrac{1}{\ln x + x + 1}$.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────── 문항 11 ───────── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="num">11</div>
+      <div class="card-title">로지스틱 모형 — 개체군 동역학</div>
+      <div class="tags">
+        <span class="tag">로지스틱 방정식</span>
+        <span class="tag">분리변수 / 부분분수</span>
+        <span class="tag">평형해 & 안정성</span>
+        <span class="tag">초기값 3가지</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="stmt">
+        아래 로지스틱 모형에서 초기조건 $y(0) = 10,\;100,\;1000$ 일 때 각각의 해를 구하고 그래프를 그려 의미를 설명하라.
+        $$y' = 100y - y^2 = y(100 - y)$$
+      </div>
+
+      <div class="theory">
+        <div class="theory-label">📚 관련 이론: 로지스틱 방정식(Logistic Equation)</div>
+        <ul>
+          <li><strong>로지스틱 방정식 표준형:</strong> $y' = ky\!\left(1 - y/M\right)$. 여기서 $k = 100$, 환경 수용력(carrying capacity) $M = 100$</li>
+          <li><strong>평형해(Equilibrium):</strong> $y' = 0$ → $y = 0$ (불안정), $y = 100$ (안정). $0 &lt; y &lt; 100$이면 $y$ 증가, $y &gt; 100$이면 $y$ 감소.</li>
+          <li><strong>분리변수법:</strong> $\dfrac{dy}{y(100-y)} = dx$</li>
+          <li><strong>부분분수 분해:</strong> $\dfrac{1}{y(100-y)} = \dfrac{1}{100}\!\left(\dfrac{1}{y} + \dfrac{1}{100-y}\right)$</li>
+          <li><strong>적분:</strong> $\dfrac{1}{100}\ln\!\left|\dfrac{y}{100-y}\right| = x + C$ → 지수화 → $\dfrac{y}{100-y} = Ae^{100x}$</li>
+          <li><strong>일반해:</strong> $y = \dfrac{100}{1 + Be^{-100x}}$, 여기서 $B = \dfrac{100 - y_0}{y_0}$</li>
+          <li><strong>초기조건별 해:</strong>
+            <ul>
+              <li>$y_0 = 10$: $B = 9$ → $y = \dfrac{100}{1 + 9e^{-100x}}$ (S자형 증가, 서서히 100으로 수렴)</li>
+              <li>$y_0 = 100$: $B = 0$ → $y = 100$ (안정 평형, 변화 없음)</li>
+              <li>$y_0 = 1000$: $B = -\tfrac{9}{10}$ → $y = \dfrac{100}{1 - 0.9\,e^{-100x}}$ (단조 감소, 100으로 수렴)</li>
+            </ul>
+          </li>
+          <li><strong>그래프 해석:</strong> 초기값에 관계없이 $x \to \infty$이면 $y \to 100$. 개체군이 환경 수용력에 의해 제한됨을 의미.</li>
+        </ul>
+      </div>
+
+      <div class="summary">
+        <div class="summary-label">✏️ Summary</div>
+        <p>$y' = y(100-y)$는 수용력 $M=100$인 로지스틱 방정식. 분리변수 후 부분분수 적분으로 일반해 $y = 100/(1 + Be^{-100x})$, $B = (100-y_0)/y_0$. $y_0 = 10$이면 S자형 증가, $y_0 = 100$이면 평형 유지, $y_0 = 1000$이면 단조 감소하며, 세 경우 모두 안정 평형 $y = 100$으로 수렴한다. 이는 개체군이 아무리 많거나 적더라도 결국 환경 수용력으로 수렴함을 나타낸다.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.getElementById('themeIcon').textContent = isDark ? '🌙' : '☀️';
+    document.getElementById('themeLabel').textContent = isDark ? '다크 모드' : '라이트 모드';
+  }
+
+  // 시스템 다크모드 자동 감지
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('themeIcon').textContent = '☀️';
+    document.getElementById('themeLabel').textContent = '라이트 모드';
+  }
+</script>
+</body>
+</html>
